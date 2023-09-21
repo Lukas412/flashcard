@@ -3,11 +3,11 @@
   "cards": [
     {
       "question": "Was sind Beispiele für Erklärprozesse?\n(Nenne 5 von 8)",
-      "answer": "Ein Mitarbeitergespräch, ein Kundengespräch,\n ein Ticket, eine Dokumentation, ein Protokoll, ein (prozessorientierter) Bericht\nSchulung/Weiterbildung/Fortbildung oder Anleitung/Anweisung"
+      "answer": "Ein Mitarbeitergespräch, ein Kundengespräch,\nein Ticket, eine Dokumentation, ein Protokoll, ein (prozessorientierter) Bericht,\neine Schulung/eine Weiterbildung/eine Fortbildung oder eine Anleitung/eine Anweisung"
     },
     {
       "question": "Was sind die Bestandteile der Einleitung?",
-      "answer": "Das Thema (Welcher Vorgang wird beschrieben),\n die Adressaten (Wer führt diesen Vorgang üblicherweise durch?),\ndas Ergebnis (Wozu wird dieser Vorgang benötigt?)\n und ggf. die benötigte Materialien."
+      "answer": "Das Thema (Welcher Vorgang wird beschrieben?),\ndie Adressaten (Wer führt diesen Vorgang üblicherweise durch?),\ndas Ergebnis (Wozu wird dieser Vorgang benötigt?)\nund ggf. die benötigten Materialien."
     },
     {
       "question": "Was sind die Bestandteile des Hauptteils?",
@@ -23,7 +23,7 @@
     },
     {
       "question": "Welcher Tonfall sollte verwendet werden?",
-      "answer": "Ein sachlich und neutraler Tonfall."
+      "answer": "Ein sachlicher und neutraler Tonfall."
     },
     {
       "question": "Wie sollten Fachbegriffen eingesetzt werden?",
