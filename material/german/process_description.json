@@ -1,0 +1,73 @@
+{
+  "topic": "Vorgangsbeschreibung",
+  "cards": [
+    {
+      "question": "Was sind Beispiele für Erklärprozesse?\n(Nenne 5 von 8)",
+      "answer": "Ein Mitarbeitergespräch, ein Kundengespräch,\n ein Ticket, eine Dokumentation, ein Protokoll, ein (prozessorientierter) Bericht\nSchulung/Weiterbildung/Fortbildung oder Anleitung/Anweisung"
+    },
+    {
+      "question": "Was sind die Bestandteile der Einleitung?",
+      "answer": "Das Thema (Welcher Vorgang wird beschrieben),\n die Adressaten (Wer führt diesen Vorgang üblicherweise durch?),\ndas Ergebnis (Wozu wird dieser Vorgang benötigt?)\n und ggf. die benötigte Materialien."
+    },
+    {
+      "question": "Was sind die Bestandteile des Hauptteils?",
+      "answer": "Die Benötigte Materialien (falls nicht schon in Einleitung genannt),\ndie Vorbereitung,\ndie Sicherheitmaßnahmen/-hinweise\nund die Durchführung des Vorgangs."
+    },
+    {
+      "question": "Was sind die Bestandteile des Schlusses?",
+      "answer": "Die Zusammenfassung der wichtigsten Aspekte als Schlusssatz."
+    },
+    {
+      "question": "Welche Zeitform sollte verwendet werden?",
+      "answer": "Das Präsens."
+    },
+    {
+      "question": "Welcher Tonfall sollte verwendet werden?",
+      "answer": "Ein sachlich und neutraler Tonfall."
+    },
+    {
+      "question": "Wie sollten Fachbegriffen eingesetzt werden?",
+      "answer": "Fachbegriffe sollten wenn möglich eingesetzt werden.\nFalls der Leser sie nicht kennen könnte müssen sie erläutert werden."
+    },
+    {
+      "question": "Wie sollten der Leser angesprochen werden?",
+      "answer": "Am besten sollte der Leser mit 'man' (indirekt) oder 'Sie' (direkt).\nAuf keinen Fall sollte 'wir' und am besten auch nicht 'ich' verwendet werden."
+    },
+    {
+      "question": "Wie präzise sollten die Formulierungen sein?",
+      "answer": "Sie sollten so präzise wie möglich und auch so knapp wie möglich sein."
+    },
+    {
+      "question": "In welcher Reihenfolge sollten die Durchführung beschrieben werden?",
+      "answer": "Die Durchführung sollte chronologisch beschrieben werden."
+    },
+    {
+      "question": "Was muss abgewechselt werden um das Interesse vom Leser zu halten?",
+      "answer": "Es müssen sich Aktiv- und Passivformulierungen abwechseln."
+    },
+    {
+      "question": "Wann werden die W-Fragen beantwortet?",
+      "answer": "In der Einleitung: Thema (Was? und Wo?), Addresaten (Wer? mit Wem?), Ergebnis(Warum? und Wozu?)"
+    },
+    {
+      "question": "Welche Begriffe können als anreihende Konnektoren verwendet werden?\n(Nenne 6 von 11)",
+      "answer": "dementsprechend, ebenfalls, ebenso (wie), ferner, anschließend, darüber hinaus, weiterhin, zudem, zusätzlich, außerdem"
+    },
+    {
+      "question": "Welche Begriffe können als ausschließende Konnektoren verwendet werden?\n(Nenne 3 von 4)",
+      "answer": "ausgenommen, beziehungsweise, entweder ... oder, außer"
+    },
+    {
+      "question": "Welche Begriffe können als begründende Konnektoren verwendet werden?\n(Nenne 6 von 11)",
+      "answer": "denn, daher, deshalb, deswegen, demnach, weil, folglich, somit, weshalb, aufgrund von, weswegen"
+    },
+    {
+      "question": "Welche Begriffe können als einschränkende Konnektoren verwendet werden?\n(Nenne 5 von 8)",
+      "answer": "allerdings, falls, insofern, während, wohingegen, 'besonders, wenn...', 'vorausgesetzt, dass ...', 'je nachdem, ob ...'"
+    },
+    {
+      "question": "Welche Begriffe können als vergleichende Konnektoren verwendet werden?\n(Nenne 2 von 3)",
+      "answer": "im Gegensatz dazu, zum Beispiel, wie"
+    }
+  ]
+}
