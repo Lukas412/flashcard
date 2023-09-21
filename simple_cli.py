@@ -13,4 +13,3 @@ while True:
     input()
     print(f'### Answer ###\n{answer}')
     input()
-
