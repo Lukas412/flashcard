@@ -30,4 +30,4 @@ try:
             })
 finally:
     with open('material/german/process_description.json', mode='w', encoding='utf8') as file:
-        json.dump(topic, file)
+        json.dump(topic, file, indent=2, ensure_ascii=False)

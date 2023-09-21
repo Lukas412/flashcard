@@ -11,7 +11,13 @@
     },
     {
       "question": "Was sind die Bestandteile des Hauptteils?",
-      "answer": "Die Benötigte Materialien (falls nicht schon in Einleitung genannt),\ndie Vorbereitung,\ndie Sicherheitmaßnahmen/-hinweise\nund die Durchführung des Vorgangs."
+      "answer": "Die Benötigte Materialien (falls nicht schon in Einleitung genannt),\ndie Vorbereitung,\ndie Sicherheitmaßnahmen/-hinweise\nund die Durchführung des Vorgangs.",
+      "corrections": [
+        {
+          "real": "Materialien, Vorgang beschreiben",
+          "correctness": "2/4"
+        }
+      ]
     },
     {
       "question": "Was sind die Bestandteile des Schlusses?",
