@@ -1,5 +1,5 @@
 {
-  "topic": "Vorgangsbeschreibung",
+  "name": "Vorgangsbeschreibung",
   "cards": [
     {
       "question": "Was sind Beispiele für Erklärprozesse?\n(Nenne 5 von 8)",
@@ -46,7 +46,7 @@
       "answer": "Es müssen sich Aktiv- und Passivformulierungen abwechseln."
     },
     {
-      "question": "Wann werden die W-Fragen beantwortet?",
+      "question": "Wann werden die W-Fragen beantwortet und welche W-Fragen gibt es?",
       "answer": "In der Einleitung: Thema (Was? und Wo?), Addresaten (Wer? mit Wem?), Ergebnis(Warum? und Wozu?)"
     },
     {
