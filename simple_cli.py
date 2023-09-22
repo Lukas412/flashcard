@@ -17,11 +17,13 @@ try:
         print()
         print(question)
         real_answer = input()
+        print()
         print(f'### Answer ###\n{correct_answer}')
         if not real_answer or real_answer.isspace():
             input()
         else:
-            correctness = input('where you right?')
+            print()
+            correctness = input('Were you right? ')
             if 'corrections' not in random_card:
                 random_card['corrections'] = []
             random_card['corrections'].append({
