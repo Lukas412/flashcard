@@ -7,23 +7,11 @@
     },
     {
       "question": "Was sind die Bestandteile der Einleitung?",
-      "answer": "Das Thema (Welcher Vorgang wird beschrieben?),\ndie Adressaten (Wer führt diesen Vorgang üblicherweise durch?),\ndas Ergebnis (Wozu wird dieser Vorgang benötigt?)\nund ggf. die benötigten Materialien.",
-      "corrections": [
-        {
-          "real": "Akteure, Thema, Material, Ergebnis",
-          "correctness": "y"
-        }
-      ]
+      "answer": "Das Thema (Welcher Vorgang wird beschrieben?),\ndie Adressaten (Wer führt diesen Vorgang üblicherweise durch?),\ndas Ergebnis (Wozu wird dieser Vorgang benötigt?)\nund ggf. die benötigten Materialien."
     },
     {
       "question": "Was sind die Bestandteile des Hauptteils?",
-      "answer": "Die Benötigte Materialien (falls nicht schon in Einleitung genannt),\ndie Vorbereitung,\ndie Sicherheitmaßnahmen/-hinweise\nund die Durchführung des Vorgangs.",
-      "corrections": [
-        {
-          "real": "Materialien, Vorgang beschreiben",
-          "correctness": "2/4"
-        }
-      ]
+      "answer": "Die Benötigte Materialien (falls nicht schon in Einleitung genannt),\ndie Vorbereitung,\ndie Sicherheitmaßnahmen/-hinweise\nund die Durchführung des Vorgangs."
     },
     {
       "question": "Was sind die Bestandteile des Schlusses?",
