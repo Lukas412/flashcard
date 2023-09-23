@@ -5,24 +5,35 @@ use uuid::Uuid;
 pub struct Category {
     uuid: Uuid,
     name: String,
+    categories: Vec<Self>,
     topics: Vec<Topic>,
 }
 
 impl Category {
-    pub fn new(uuid: Uuid, name: String, topics: Vec<Topic>) -> Self {
-        Self { uuid, name, topics }
+    pub fn new(uuid: Uuid, name: String, categories: Vec<Self>, topics: Vec<Topic>) -> Self {
+        Self {
+            uuid,
+            name,
+            categories,
+            topics,
+        }
     }
 
     pub fn create(name: String) -> Self {
         Self {
             uuid: Uuid::new_v4(),
             name,
+            categories: vec![],
             topics: vec![],
         }
     }
 
     pub fn name(&self) -> &str {
         self.name.as_str()
+    }
+
+    pub fn add_category(&mut self, category: Self) {
+        self.categories.push(category)
     }
 
     pub fn add_topic(&mut self, topic: Topic) {

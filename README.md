@@ -1,7 +1,4 @@
 # ✨ FlashCard ✨
 
-This repository contains multiple projects focused on learning with flash cards.
-
-From simple python CLIs to more advanced graphical applications.
-
-The learning material can be found stored as JSON in the `materials` directory.
+Dieses Projekt enthält Karteikarten zu verschiedenen Themen der Ausbildung zum Fachinformatiker für
+Anwendungsentwicklung. Die Karteikarten sind in der `materials.json` Datei zu finden.
