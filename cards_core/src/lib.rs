@@ -41,19 +41,23 @@ impl IntoIterator for Category {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Topic {
-    uuid: Uuid,
+    uuid: Option<Uuid>,
     name: String,
     cards: Vec<Card>,
 }
 
 impl Topic {
     pub fn new(uuid: Uuid, name: String, cards: Vec<Card>) -> Self {
-        Self { uuid, name, cards }
+        Self {
+            uuid: uuid.into(),
+            name,
+            cards,
+        }
     }
 
     pub fn create(name: String) -> Self {
         Self {
-            uuid: Uuid::new_v4(),
+            uuid: Uuid::new_v4().into(),
             name,
             cards: vec![],
         }
@@ -66,19 +70,32 @@ impl Topic {
     pub fn add_card(&mut self, card: Card) {
         self.cards.push(card)
     }
+
+    pub fn generate_uuids(&mut self) {
+        self.uuid = Uuid::new_v4().into();
+        for x in self.cards.iter_mut() {
+            x.generate_uuid()
+        }
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Card {
-    uuid: Uuid,
+    uuid: Option<Uuid>,
     question: String,
     answer: String,
 }
 
 impl Card {
+    pub(crate) fn generate_uuid(&mut self) {
+        self.uuid = Uuid::new_v4().into();
+    }
+}
+
+impl Card {
     pub fn new(uuid: Uuid, question: String, answer: String) -> Self {
         Self {
-            uuid,
+            uuid: uuid.into(),
             question,
             answer,
         }
@@ -86,7 +103,7 @@ impl Card {
 
     pub fn create(question: String, answer: String) -> Self {
         Self {
-            uuid: Uuid::new_v4(),
+            uuid: Uuid::new_v4().into(),
             question,
             answer,
         }
