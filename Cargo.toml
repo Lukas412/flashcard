@@ -1,5 +1,5 @@
 [workspace]
 members = [
     "cards_core",
-
+    "cards_server"
 ]
