@@ -28,6 +28,10 @@ impl Category {
         }
     }
 
+    pub fn uuid(&self) -> &Uuid {
+        &self.uuid
+    }
+
     pub fn name(&self) -> &str {
         self.name.as_str()
     }
@@ -39,14 +43,13 @@ impl Category {
     pub fn add_topic(&mut self, topic: Topic) {
         self.topics.push(topic)
     }
-}
 
-impl IntoIterator for Category {
-    type Item = Topic;
-    type IntoIter = <Vec<Self::Item> as IntoIterator>::IntoIter;
+    pub fn categories(&self) -> impl Iterator<Item = &Self> {
+        self.categories.iter()
+    }
 
-    fn into_iter(self) -> Self::IntoIter {
-        self.topics.into_iter()
+    pub fn topics(&self) -> impl Iterator<Item = &Topic> {
+        self.topics.iter()
     }
 }
 

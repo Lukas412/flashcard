@@ -8,3 +8,5 @@ anyhow = "1.0.75"
 serde = "1.0.188"
 serde_json = "1.0.107"
 cards_core = { path = "../cards_core" }
+clap = { version = "4.4.4", features = ["derive"] }
+uuid = { version = "1.4.1", features = ["v4"] }
