@@ -11,10 +11,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cards_persistance"
-version = "0.1.0"
-
-[[package]]
 name = "cards_server"
 version = "0.1.0"
 
