@@ -1,0 +1,8 @@
+[package]
+name = "cards_core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0.188", features = ["derive"] }
+uuid = { version = "1.4.1", features = ["v4", "serde"] }

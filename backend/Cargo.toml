@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "cards_core",
+    "cards_persistance",
+    "cards_server"
+]
