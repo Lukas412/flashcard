@@ -1,71 +1,89 @@
 {
+  "uuid": "f1eee3db-4dfa-4162-8512-70781686e069",
   "name": "Deutsch > Freitext > Vorgangsbeschreibung",
   "cards": [
     {
+      "uuid": "57e6cd26-dd16-4714-a61e-4ad0ca0feeff",
       "question": "Was sind Beispiele für Erklärprozesse?\n(Nenne 5 von 8)",
       "answer": "Ein Mitarbeitergespräch, ein Kundengespräch,\nein Ticket, eine Dokumentation, ein Protokoll, ein (prozessorientierter) Bericht,\neine Schulung/eine Weiterbildung/eine Fortbildung oder eine Anleitung/eine Anweisung"
     },
     {
+      "uuid": "18344e30-20c3-4cba-8e1b-6e15f885e0c6",
       "question": "Was sind die Bestandteile der Einleitung?",
       "answer": "Das Thema (Welcher Vorgang wird beschrieben?),\ndie Adressaten (Wer führt diesen Vorgang üblicherweise durch?),\ndas Ergebnis (Wozu wird dieser Vorgang benötigt?)\nund ggf. die benötigten Materialien."
     },
     {
+      "uuid": "cb018883-dfd6-4fe7-be3d-3efa41a24d08",
       "question": "Was sind die Bestandteile des Hauptteils?",
       "answer": "Die Benötigte Materialien (falls nicht schon in Einleitung genannt),\ndie Vorbereitung,\ndie Sicherheitmaßnahmen/-hinweise\nund die Durchführung des Vorgangs."
     },
     {
+      "uuid": "b642b7aa-aea1-4e70-815b-967a6a0b93ce",
       "question": "Was sind die Bestandteile des Schlusses?",
       "answer": "Die Zusammenfassung der wichtigsten Aspekte als Schlusssatz."
     },
     {
+      "uuid": "302f516d-2a52-4317-9b27-f34a0fad709d",
       "question": "Welche Zeitform sollte verwendet werden?",
       "answer": "Das Präsens."
     },
     {
+      "uuid": "3e16ed9b-e0e3-4133-95db-74800c1c78f2",
       "question": "Welcher Tonfall sollte verwendet werden?",
       "answer": "Ein sachlicher und neutraler Tonfall."
     },
     {
+      "uuid": "9d8e61d8-3ed8-4e74-afc3-57a6efec3e75",
       "question": "Wie sollten Fachbegriffen eingesetzt werden?",
       "answer": "Fachbegriffe sollten wenn möglich eingesetzt werden.\nFalls der Leser sie nicht kennen könnte müssen sie erläutert werden."
     },
     {
+      "uuid": "e55326d0-66c5-4aaf-9996-87c48f6bb861",
       "question": "Wie sollten der Leser angesprochen werden?",
       "answer": "Am besten sollte der Leser mit 'man' (indirekt) oder 'Sie' (direkt).\nAuf keinen Fall sollte 'wir' und am besten auch nicht 'ich' verwendet werden."
     },
     {
+      "uuid": "1d1dfe40-ce43-4d50-bade-acde8c30e661",
       "question": "Wie präzise sollten die Formulierungen sein?",
       "answer": "Sie sollten so präzise wie möglich und auch so knapp wie möglich sein."
     },
     {
+      "uuid": "05112650-7a5a-4111-85ac-7cfc1cae5c29",
       "question": "In welcher Reihenfolge sollten die Durchführung beschrieben werden?",
       "answer": "Die Durchführung sollte chronologisch beschrieben werden."
     },
     {
+      "uuid": "b5044b14-ef3d-4153-b324-b7143b926c6a",
       "question": "Was muss abgewechselt werden um das Interesse vom Leser zu halten?",
       "answer": "Es müssen sich Aktiv- und Passivformulierungen abwechseln."
     },
     {
+      "uuid": "916ba2f4-2042-4600-8d2b-49753fc5be12",
       "question": "Wann werden die W-Fragen beantwortet und welche W-Fragen gibt es?",
       "answer": "In der Einleitung: Thema (Was? und Wo?), Addresaten (Wer? mit Wem?), Ergebnis(Warum? und Wozu?)"
     },
     {
+      "uuid": "8fb8ef6a-0498-417e-a2c6-1ea71446a63d",
       "question": "Welche Begriffe können als anreihende Konnektoren verwendet werden?\n(Nenne 6 von 11)",
       "answer": "dementsprechend, ebenfalls, ebenso (wie), ferner, anschließend, darüber hinaus, weiterhin, zudem, zusätzlich, außerdem"
     },
     {
+      "uuid": "84b67afc-0864-4a72-919e-a3f941940908",
       "question": "Welche Begriffe können als ausschließende Konnektoren verwendet werden?\n(Nenne 3 von 4)",
       "answer": "ausgenommen, beziehungsweise, entweder ... oder, außer"
     },
     {
+      "uuid": "26478479-a817-4419-9502-af0de3ac185e",
       "question": "Welche Begriffe können als begründende Konnektoren verwendet werden?\n(Nenne 6 von 11)",
       "answer": "denn, daher, deshalb, deswegen, demnach, weil, folglich, somit, weshalb, aufgrund von, weswegen"
     },
     {
+      "uuid": "13a99ae6-918c-4bf2-8747-7c3c85432adb",
       "question": "Welche Begriffe können als einschränkende Konnektoren verwendet werden?\n(Nenne 5 von 8)",
       "answer": "allerdings, falls, insofern, während, wohingegen, 'besonders, wenn...', 'vorausgesetzt, dass ...', 'je nachdem, ob ...'"
     },
     {
+      "uuid": "aed2b718-93ed-4a72-9032-3628539a2235",
       "question": "Welche Begriffe können als vergleichende Konnektoren verwendet werden?\n(Nenne 2 von 3)",
       "answer": "im Gegensatz dazu, zum Beispiel, wie"
     }
