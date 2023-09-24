@@ -25,10 +25,9 @@ struct AddCommand {
     to: Uuid,
 }
 
-#[derive(Debug, Args)]
-struct RemoveCommand {
-    #[arg(short, long)]
-    uuid: Uuid,
+#[derive(Debug, Subcommand)]
+enum RemoveCommand {
+    Category { uuid: Uuid },
 }
 
 fn main() -> anyhow::Result<()> {
