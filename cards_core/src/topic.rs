@@ -1,4 +1,6 @@
-use crate::{Card, Category};
+use crate::{
+    Add, AddItem, Card, Category, Create, Find, FindParent, HasParent, Remove, RemoveChild,
+};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -23,38 +25,61 @@ impl Topic {
     }
 }
 
-impl Topic {
-    pub fn create(name: String) -> Self {
+pub struct TopicOptions {
+    pub name: String,
+}
+
+impl Create for Topic {
+    type Options = TopicOptions;
+
+    fn create(options: Self::Options) -> Self {
         Self {
             uuid: Uuid::new_v4(),
-            name,
+            name: options.name,
             cards: vec![],
         }
     }
+}
 
-    pub fn wrap(self, name: String) -> Category {
-        let mut category = Category::create(name);
-        category.add_topic(self);
-        category
-    }
+impl Add<Card> for Topic {}
 
-    pub fn create_card(&mut self, question: String, answer: String) {
-        self.add_card(Card::create(question, answer))
+impl AddItem<Card> for Topic {
+    fn add_item(&mut self, item: Card) {
+        self.cards.push(item)
     }
 }
 
-impl Topic {
-    pub fn remove_card(&mut self, uuid: &Uuid) -> Option<Card> {
-        self.cards
-            .iter()
+impl Find<Card> for Topic {
+    fn find(&self, uuid: &Uuid) -> Option<&Card> {
+        self.cards().find(|card| card.is(uuid))
+    }
+
+    fn find_mut(&mut self, uuid: &Uuid) -> Option<&mut Card> {
+        self.cards.iter_mut().find(|card| card.is(uuid))
+    }
+}
+
+impl FindParent<Card> for Topic {
+    fn find_parent(&self, uuid: &Uuid) -> Option<&<Card as HasParent>::Parent> {
+        self.find(uuid).map(|_| self)
+    }
+
+    fn find_parent_mut(&mut self, uuid: &Uuid) -> Option<&mut <Card as HasParent>::Parent> {
+        self.find(uuid).map(|_| self)
+    }
+}
+
+impl Remove<Card> for Topic {
+    fn remove(&mut self, uuid: &Uuid) -> Option<Card> {
+        self.cards()
             .enumerate()
-            .find_map(|(index, card)| (card.uuid() == uuid).then_some(index))
+            .find_map(|(index, card)| card.is(uuid).then_some(index))
             .map(|index| self.cards.swap_remove(index))
     }
 }
 
-impl Topic {
-    fn add_card(&mut self, card: Card) {
-        self.cards.push(card)
-    }
+impl RemoveChild<Card> for Topic {}
+
+impl HasParent for Topic {
+    type Parent = Category;
 }

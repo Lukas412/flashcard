@@ -1,3 +1,4 @@
+use crate::{Create, HasParent, Topic};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -9,16 +10,8 @@ pub struct Card {
 }
 
 impl Card {
-    pub fn create(question: String, answer: String) -> Self {
-        Self {
-            uuid: Uuid::new_v4(),
-            question,
-            answer,
-        }
-    }
-
-    pub fn uuid(&self) -> &Uuid {
-        &self.uuid
+    pub fn is(&self, uuid: &Uuid) -> bool {
+        self.uuid == *uuid
     }
 
     pub fn question(&self) -> &str {
@@ -28,4 +21,25 @@ impl Card {
     pub fn answer(&self) -> &str {
         self.answer.as_str()
     }
+}
+
+pub struct CardOptions {
+    pub question: String,
+    pub answer: String,
+}
+
+impl Create for Card {
+    type Options = CardOptions;
+
+    fn create(options: Self::Options) -> Self {
+        Self {
+            uuid: Uuid::new_v4(),
+            question: options.question,
+            answer: options.answer,
+        }
+    }
+}
+
+impl HasParent for Card {
+    type Parent = Topic;
 }
