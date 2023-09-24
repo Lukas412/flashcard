@@ -10,6 +10,20 @@ pub struct Topic {
 }
 
 impl Topic {
+    pub fn name(&self) -> &str {
+        self.name.as_str()
+    }
+
+    pub fn uuid(&self) -> &Uuid {
+        &self.uuid
+    }
+
+    pub fn cards(&self) -> impl Iterator<Item = &Card> {
+        self.cards.iter()
+    }
+}
+
+impl Topic {
     pub fn create(name: String) -> Self {
         Self {
             uuid: Uuid::new_v4(),
@@ -24,17 +38,12 @@ impl Topic {
         category
     }
 
-    pub fn name(&self) -> &str {
-        self.name.as_str()
-    }
-
-    pub fn uuid(&self) -> &Uuid {
-        &self.uuid
-    }
     pub fn create_card(&mut self, question: String, answer: String) {
         self.add_card(Card::create(question, answer))
     }
+}
 
+impl Topic {
     pub fn remove_card(&mut self, uuid: &Uuid) -> Option<Card> {
         self.cards
             .iter()

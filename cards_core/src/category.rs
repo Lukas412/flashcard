@@ -20,14 +20,6 @@ impl Category {
         }
     }
 
-    pub fn uuid(&self) -> &Uuid {
-        &self.uuid
-    }
-
-    pub fn name(&self) -> &str {
-        self.name.as_str()
-    }
-
     pub fn wrap(self, name: String) -> Self {
         let mut category = Self::create(name);
         category.add_category(self);
@@ -41,15 +33,19 @@ impl Category {
     pub fn create_topic(&mut self, name: String) {
         self.add_topic(Topic::create(name))
     }
+}
 
-    pub fn categories(&self) -> impl Iterator<Item = &Self> {
-        self.categories.iter()
+impl Category {
+    pub fn create_topic_under(&mut self, parent: Uuid, name: String) {
+        for category in self.categories.iter_mut() {
+            if category.uuid == parent {
+                
+            }
+        }
     }
+}
 
-    pub fn topics(&self) -> impl Iterator<Item = &Topic> {
-        self.topics.iter()
-    }
-
+impl Category {
     pub fn remove_card(&mut self, uuid: &Uuid) -> Option<Card> {
         self.topics
             .iter_mut()
@@ -78,8 +74,31 @@ impl Category {
         self.categories
             .iter()
             .enumerate()
-            .find_map(|(index, category)| (category.uuid() == uuid).then_some(index))
+            .find_map(|(index, category)| (category.is(uuid)).then_some(index))
             .map(|index| self.categories.swap_remove(index))
+            .or_else(|| {
+                self.categories
+                    .iter_mut()
+                    .find_map(|category| category.remove_category(uuid))
+            })
+    }
+}
+
+impl Category {
+    pub fn is(&self, uuid: &Uuid) -> bool {
+        self.uuid == *uuid
+    }
+
+    pub fn name(&self) -> &str {
+        self.name.as_str()
+    }
+
+    pub fn categories(&self) -> impl Iterator<Item = &Self> {
+        self.categories.iter()
+    }
+
+    pub fn topics(&self) -> impl Iterator<Item = &Topic> {
+        self.topics.iter()
     }
 }
 
