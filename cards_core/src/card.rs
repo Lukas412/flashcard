@@ -2,9 +2,11 @@ use crate::{Create, HasParent, Topic};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+pub type CardUuid = Uuid;
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Card {
-    uuid: Uuid,
+    uuid: CardUuid,
     question: String,
     answer: String,
 }

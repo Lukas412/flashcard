@@ -4,9 +4,11 @@ use crate::{
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+pub type TopicUuid = Uuid;
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Topic {
-    uuid: Uuid,
+    uuid: TopicUuid,
     name: String,
     cards: Vec<Card>,
 }
@@ -16,8 +18,8 @@ impl Topic {
         self.name.as_str()
     }
 
-    pub fn uuid(&self) -> &Uuid {
-        &self.uuid
+    pub fn is(&self, uuid: &Uuid) -> bool {
+        self.uuid == *uuid
     }
 
     pub fn cards(&self) -> impl Iterator<Item = &Card> {

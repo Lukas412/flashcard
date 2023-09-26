@@ -1,47 +1,79 @@
-use crate::{Card, Topic};
+use crate::{Add, AddChild, AddItem, AddParent, Card, Create, Find, HasParent, Remove, Topic};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+pub type CategoryUuid = Uuid;
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Category {
-    uuid: Uuid,
+    uuid: CategoryUuid,
     name: String,
     categories: Vec<Self>,
     topics: Vec<Topic>,
 }
 
-impl Category {
-    pub fn create(name: String) -> Self {
+pub struct CategoryOptions {
+    pub name: String,
+}
+
+impl Create for Category {
+    type Options = CategoryOptions;
+
+    fn create(options: Self::Options) -> Self {
         Self {
             uuid: Uuid::new_v4(),
-            name,
+            name: options.name,
             categories: vec![],
             topics: vec![],
         }
     }
+}
 
-    pub fn wrap(self, name: String) -> Self {
-        let mut category = Self::create(name);
-        category.add_category(self);
-        category
-    }
+impl Add<Self> for Category {}
 
-    pub fn create_category(&mut self, name: String) {
-        self.add_category(Self::create(name))
-    }
-
-    pub fn create_topic(&mut self, name: String) {
-        self.add_topic(Topic::create(name))
+impl AddItem<Self> for Category {
+    fn add_item(&mut self, item: Self) {
+        self.categories.push(item)
     }
 }
 
-impl Category {
-    pub fn create_topic_under(&mut self, parent: Uuid, name: String) {
-        for category in self.categories.iter_mut() {
-            if category.uuid == parent {
-                
-            }
-        }
+impl AddChild<Self> for Category {}
+
+impl AddParent for Category {}
+
+impl Add<Topic> for Category {}
+
+impl AddItem<Topic> for Category {
+    fn add_item(&mut self, item: Topic) {
+        self.topics.push(item)
+    }
+}
+
+impl AddChild<Topic> for Category {}
+
+impl AddChild<Card> for Category {}
+
+impl Remove<Self> for Category {
+    fn remove(&mut self, uuid: &Uuid) -> Option<Self> {
+        self.categories()
+            .enumerate()
+            .find_map(|(index, card)| card.is(uuid).then_some(index))
+            .map(|index| self.categories.swap_remove(index))
+            .or_else(|| {
+                self.categories
+                    .iter_mut()
+                    .find_map(|category| category.remove(uuid))
+            })
+    }
+}
+
+impl Remove<Topic> for Category {
+    fn remove(&mut self, uuid: &Uuid) -> Option<Topic> {
+        self.topics()
+            .enumerate()
+            .find_map(|(index, topic)| topic.is(uuid).then_some(index))
+            .map(|index| self.topics.swap_remove(index))
+            .or_else()
     }
 }
 
@@ -110,4 +142,62 @@ impl Category {
     pub(crate) fn add_topic(&mut self, topic: Topic) {
         self.topics.push(topic)
     }
+}
+
+impl Find<Self> for Category {
+    fn find(&self, uuid: &Uuid) -> Option<&Self> {
+        self.is(uuid)
+            .then_some(self)
+            .or_else(|| self.categories().find_map(|category| category.find(uuid)))
+    }
+
+    fn find_mut(&mut self, uuid: &Uuid) -> Option<&mut Self> {
+        self.is(uuid).then_some(self).or_else(|| {
+            self.categories
+                .iter_mut()
+                .find_map(|category| category.find_mut(uuid))
+        })
+    }
+}
+
+impl Find<Topic> for Category {
+    fn find(&self, uuid: &Uuid) -> Option<&Topic> {
+        self.topics()
+            .find(|topic| topic.is(uuid))
+            .or_else(|| self.categories().find_map(|category| category.find(uuid)))
+    }
+
+    fn find_mut(&mut self, uuid: &Uuid) -> Option<&mut Topic> {
+        self.topics
+            .iter_mut()
+            .find(|topic| topic.is(uuid))
+            .or_else(|| {
+                self.categories
+                    .iter_mut()
+                    .find_map(|category| category.find_mut(uuid))
+            })
+    }
+}
+
+impl Find<Card> for Category {
+    fn find(&self, uuid: &Uuid) -> Option<&Card> {
+        self.topics()
+            .find_map(|topic| topic.find(uuid))
+            .or_else(|| self.categories().find_map(|category| category.find(uuid)))
+    }
+
+    fn find_mut(&mut self, uuid: &Uuid) -> Option<&mut Card> {
+        self.topics
+            .iter_mut()
+            .find_map(|topic| topic.find_mut(uuid))
+            .or_else(|| {
+                self.categories
+                    .iter_mut()
+                    .find_map(|category| category.find_mut(uuid))
+            })
+    }
+}
+
+impl HasParent for Category {
+    type Parent = Self;
 }

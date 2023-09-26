@@ -1,70 +1,17 @@
-use cards_core::Category;
+use crate::arguments::{AddElementCommand, RemoveElementCommand};
+use cards_core::{Card, Category, FlashcardStore, Topic};
 use clap::{Args, Parser, Subcommand};
 use serde_json::json;
 use std::convert::Into;
+use std::fmt::Arguments;
 use std::fs;
-use std::iter::once;
-use uuid::Uuid;
+use std::process::Command;
 
-/// CLI application to add, remove and list flashcards.
-#[derive(Parser)]
-#[command(author, version, about)]
-struct Arguments {
-    #[clap(subcommand)]
-    command: Command,
-}
-
-#[derive(Debug, Subcommand)]
-enum Command {
-    Add(AddCommand),
-    Remove(RemoveCommand),
-    List,
-}
-
-#[derive(Debug, Args)]
-struct AddCommand {
-    #[clap(subcommand)]
-    element: AddElementCommand,
-    #[arg(short, long)]
-    to: Uuid,
-}
-
-#[derive(Debug, Subcommand)]
-enum AddElementCommand {
-    Category {
-        #[arg(short, long)]
-        name: String,
-    },
-    Topic {
-        #[arg(short, long)]
-        name: String,
-    },
-    Card {
-        #[arg(short, long)]
-        question: String,
-        #[arg(short, long)]
-        answer: String,
-    },
-}
-
-#[derive(Debug, Args)]
-struct RemoveCommand {
-    #[clap(subcommand)]
-    element: RemoveElementCommand,
-    #[arg(short, long)]
-    uuid: Uuid,
-}
-
-#[derive(Debug, Subcommand)]
-enum RemoveElementCommand {
-    Category,
-    Topic,
-    Card,
-}
+mod arguments;
 
 fn main() -> anyhow::Result<()> {
-    let mut category = load_material()?;
     let arguments = Arguments::parse();
+    let store = FlashcardStore::load_from_bytes("store")?;
 
     match arguments.command {
         Command::Add(command) => {
@@ -80,42 +27,40 @@ fn main() -> anyhow::Result<()> {
             let uuid = command.uuid;
             match command.element {
                 RemoveElementCommand::Category => {
-                    if let Some(removed) = category.remove_category(&uuid) {
+                    if let Some(removed) = store.remove_category(&uuid) {
                         println!("removed:\n{}", json!(removed));
                     }
                 }
                 RemoveElementCommand::Topic => {
-                    if let Some(topic) = category.remove_topic(&uuid) {
+                    if let Some(topic) = store.remove_topic(&uuid) {
                         println!("removed:\n{}", json!(topic));
                     }
                 }
                 RemoveElementCommand::Card => {
-                    if let Some(card) = category.remove_card(&uuid) {
+                    if let Some(card) = store.remove_card(&uuid) {
                         println!("removed:\n{}", json!(card))
                     }
                 }
             }
         }
-        Command::List => print_category_list(&category),
+        Command::List => print_categories(&store),
     }
 
     Ok(())
 }
 
-fn load_material() -> anyhow::Result<Category> {
-    let raw_material = fs::read_to_string("material.json")?;
-    serde_json::from_str(&raw_material).map_err(Into::into)
+fn print_categories(store: &FlashcardStore) {
+    
 }
 
-fn save_material(category: &Category) -> anyhow::Result<()> {
-    let raw_material = serde_json::to_string_pretty(category)?;
-    fs::write("material.json", raw_material).map_err(Into::into)
-}
-
-fn print_category_list(category: &Category) {
+fn print_category(category: &Category) {
     let mut names = vec![];
     print_sub_category_list(category, &mut names);
 }
+
+fn print_topic(topic: &Topic) {}
+
+fn print_card(card: &Card) {}
 
 fn print_sub_category_list<'a>(category: &'a Category, names: &mut Vec<&'a str>) {
     names.push(category.name());

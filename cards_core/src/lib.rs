@@ -1,9 +1,19 @@
-pub use {card::Card, category::Category, topic::Topic, create::{Add, AddChild, AddItem, Create,AddParent}, find::{Find, FindParent}, remove::{Remove, RemoveChild}, structure::HasParent};
+pub use {
+    card::Card,
+    category::Category,
+    create::{Add, AddChild, AddItem, AddParent, Create},
+    find::{Find, FindParent},
+    remove::{Remove, RemoveChild},
+    store::FlashcardStore,
+    structure::HasParent,
+    topic::Topic,
+};
 
 mod card;
 mod category;
 mod create;
 mod find;
 mod remove;
+mod store;
 mod structure;
 mod topic;
