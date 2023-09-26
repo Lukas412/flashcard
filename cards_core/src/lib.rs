@@ -4,7 +4,7 @@ pub use {
     create::{Add, AddChild, AddItem, AddParent, Create},
     find::{Find, FindParent},
     remove::{Remove, RemoveChild},
-    store::FlashcardStore,
+    store::FlashCardStore,
     structure::HasParent,
     topic::Topic,
 };

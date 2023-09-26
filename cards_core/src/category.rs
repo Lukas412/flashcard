@@ -37,8 +37,6 @@ impl AddItem<Self> for Category {
     }
 }
 
-impl AddChild<Self> for Category {}
-
 impl AddParent for Category {}
 
 impl Add<Topic> for Category {}
@@ -46,73 +44,6 @@ impl Add<Topic> for Category {}
 impl AddItem<Topic> for Category {
     fn add_item(&mut self, item: Topic) {
         self.topics.push(item)
-    }
-}
-
-impl AddChild<Topic> for Category {}
-
-impl AddChild<Card> for Category {}
-
-impl Remove<Self> for Category {
-    fn remove(&mut self, uuid: &Uuid) -> Option<Self> {
-        self.categories()
-            .enumerate()
-            .find_map(|(index, card)| card.is(uuid).then_some(index))
-            .map(|index| self.categories.swap_remove(index))
-            .or_else(|| {
-                self.categories
-                    .iter_mut()
-                    .find_map(|category| category.remove(uuid))
-            })
-    }
-}
-
-impl Remove<Topic> for Category {
-    fn remove(&mut self, uuid: &Uuid) -> Option<Topic> {
-        self.topics()
-            .enumerate()
-            .find_map(|(index, topic)| topic.is(uuid).then_some(index))
-            .map(|index| self.topics.swap_remove(index))
-            .or_else()
-    }
-}
-
-impl Category {
-    pub fn remove_card(&mut self, uuid: &Uuid) -> Option<Card> {
-        self.topics
-            .iter_mut()
-            .find_map(|topic| topic.remove_card(uuid))
-            .or_else(|| {
-                self.categories
-                    .iter_mut()
-                    .find_map(|category| category.remove_card(uuid))
-            })
-    }
-
-    pub fn remove_topic(&mut self, uuid: &Uuid) -> Option<Topic> {
-        self.topics
-            .iter()
-            .enumerate()
-            .find_map(|(index, topic)| (topic.uuid() == uuid).then_some(index))
-            .map(|index| self.topics.swap_remove(index))
-            .or_else(|| {
-                self.categories
-                    .iter_mut()
-                    .find_map(|category| category.remove_topic(uuid))
-            })
-    }
-
-    pub fn remove_category(&mut self, uuid: &Uuid) -> Option<Self> {
-        self.categories
-            .iter()
-            .enumerate()
-            .find_map(|(index, category)| (category.is(uuid)).then_some(index))
-            .map(|index| self.categories.swap_remove(index))
-            .or_else(|| {
-                self.categories
-                    .iter_mut()
-                    .find_map(|category| category.remove_category(uuid))
-            })
     }
 }
 
@@ -144,22 +75,6 @@ impl Category {
     }
 }
 
-impl Find<Self> for Category {
-    fn find(&self, uuid: &Uuid) -> Option<&Self> {
-        self.is(uuid)
-            .then_some(self)
-            .or_else(|| self.categories().find_map(|category| category.find(uuid)))
-    }
-
-    fn find_mut(&mut self, uuid: &Uuid) -> Option<&mut Self> {
-        self.is(uuid).then_some(self).or_else(|| {
-            self.categories
-                .iter_mut()
-                .find_map(|category| category.find_mut(uuid))
-        })
-    }
-}
-
 impl Find<Topic> for Category {
     fn find(&self, uuid: &Uuid) -> Option<&Topic> {
         self.topics()
@@ -171,25 +86,6 @@ impl Find<Topic> for Category {
         self.topics
             .iter_mut()
             .find(|topic| topic.is(uuid))
-            .or_else(|| {
-                self.categories
-                    .iter_mut()
-                    .find_map(|category| category.find_mut(uuid))
-            })
-    }
-}
-
-impl Find<Card> for Category {
-    fn find(&self, uuid: &Uuid) -> Option<&Card> {
-        self.topics()
-            .find_map(|topic| topic.find(uuid))
-            .or_else(|| self.categories().find_map(|category| category.find(uuid)))
-    }
-
-    fn find_mut(&mut self, uuid: &Uuid) -> Option<&mut Card> {
-        self.topics
-            .iter_mut()
-            .find_map(|topic| topic.find_mut(uuid))
             .or_else(|| {
                 self.categories
                     .iter_mut()

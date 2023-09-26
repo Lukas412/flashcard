@@ -4,13 +4,19 @@ use uuid::Uuid;
 /// CLI application to add, remove and list flashcards.
 #[derive(Parser)]
 #[command(author, version, about)]
-pub(crate) struct Arguments {
+pub(crate) struct FlashCardArguments {
     #[clap(subcommand)]
-    command: Command,
+    command: FlashCardCommand,
+}
+
+impl FlashCardArguments {
+    pub(crate) fn command(&self) -> &FlashCardCommand {
+        &self.command
+    }
 }
 
 #[derive(Debug, Subcommand)]
-pub(crate) enum Command {
+pub(crate) enum FlashCardCommand {
     Add(AddCommand),
     Remove(RemoveCommand),
     List,
@@ -22,6 +28,16 @@ pub(crate) struct AddCommand {
     element: AddElementCommand,
     #[arg(short, long)]
     to: Uuid,
+}
+
+impl AddCommand {
+    pub(crate) fn element(&self) -> &AddElementCommand {
+        &self.element
+    }
+
+    pub(crate) fn to(&self) -> &Uuid {
+        &self.to
+    }
 }
 
 #[derive(Debug, Subcommand)]
@@ -48,6 +64,16 @@ pub(crate) struct RemoveCommand {
     element: RemoveElementCommand,
     #[arg(short, long)]
     uuid: Uuid,
+}
+
+impl RemoveCommand {
+    pub(crate) fn element(&self) -> &RemoveElementCommand {
+        &self.element
+    }
+
+    pub(crate) fn uuid(&self) -> &Uuid {
+        &self.uuid
+    }
 }
 
 #[derive(Debug, Subcommand)]
