@@ -57,7 +57,7 @@ class FlashCardApp(tk.Tk):
         self.pile_label = tk.Label(self, text='', justify=tk.LEFT)
         self.pile_label.grid(row=4, column=1, sticky='nw')
 
-        self.text_label = tk.Label(self, text='', justify=tk.LEFT, wraplength=300, font=Theme.text_font())
+        self.text_label = tk.Label(self, text='', justify=tk.LEFT, wraplength=600, font=Theme.text_font())
         self.text_label.grid(row=10, column=1, columnspan=2, sticky='nw')
 
         self.uncover_button = (HideAbleButton(self, text='Aufdecken <Lehrtaste>', font=Theme.action_font(), border=0)
