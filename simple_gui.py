@@ -1,5 +1,7 @@
+import csv
 import functools
 import tkinter as tk
+from dataclasses import dataclass
 
 
 class FlashCardApp(tk.Tk):
@@ -8,6 +10,8 @@ class FlashCardApp(tk.Tk):
 
     def __init__(self):
         super().__init__()
+
+        self.flash_card_store = FlashCardStore()
 
         self.title('FlashCards')
 
@@ -48,7 +52,7 @@ class FlashCardApp(tk.Tk):
         self.right.hide()
 
     def set_uncovered_state(self):
-        if self.state not in (self.STATE_COVERED, ):
+        if self.state not in (self.STATE_COVERED,):
             return
         self.state = 'uncovered'
         self.uncover.hide()
@@ -72,6 +76,37 @@ class FlashCardApp(tk.Tk):
                 self.set_covered_state()
             if event.char == 'j':
                 self.set_covered_state()
+
+
+class FlashCardStore:
+
+    def __init__(self):
+        self.piles = {}
+
+    def load_from_simple_csv(self, path):
+        with open(path, mode='r') as file:
+            csv_content = csv.DictReader(file)
+        self.pile(0).extend(FlashCard(pile=0, question=card['front'], answer=card['back']) for card in csv_content)
+
+    def pile(self, number):
+        if number not in self.piles:
+            self.piles[number] = []
+        return self.piles[number]
+
+    def next_card(self):
+        # Somehow find the card and the pile and return the card
+        try:
+            self.x += 1
+        except:
+            self.x = 1
+        return FlashCard(pile=0, question=f'Question {self.x}?', answer=f'Answer {self.x}!')
+
+
+@dataclass
+class FlashCard:
+    pile: int
+    question: str
+    answer: str
 
 
 class HideAbleButton(tk.Button):
