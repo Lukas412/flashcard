@@ -2,9 +2,18 @@ import functools
 import tkinter as tk
 
 
+def on_key_press(root):
+    def inner(event):
+        if event.char == 'q':
+            root.quit()
+
+    return inner
+
+
 def main():
     root = tk.Tk()
     root.title('FlashCards')
+
     root.grid_rowconfigure(0, minsize=32)
     root.grid_rowconfigure(1, weight=1)
     root.grid_rowconfigure(2, minsize=32)
@@ -25,6 +34,8 @@ def main():
     root.after(2000, lambda: root.uncover.show())
     root.after(3000, lambda: root.uncover.hide())
     root.after(4000, lambda: root.uncover.show())
+
+    root.bind('<KeyPress>', on_key_press(root))
 
     root.mainloop()
 
