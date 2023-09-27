@@ -24,13 +24,13 @@ class FlashCardApp(tk.Tk):
         self.text = tk.Label(self, text='Hier kommt die Frage hin.')
         self.text.grid(row=1, column=1, columnspan=2)
 
-        self.uncover = HideAbleButton(self, text='Karte aufdecken')
+        self.uncover = HideAbleButton(self, text='Karte aufdecken\n<Space>')
         self.uncover.grid(row=3, column=1, columnspan=2)
 
-        self.wrong = (HideAbleButton(self, text='Falsch')
+        self.wrong = (HideAbleButton(self, text='Falsch\n<F>')
                       .grid(row=3, column=1)
                       .hide())
-        self.right = (HideAbleButton(self, text='Richtig')
+        self.right = (HideAbleButton(self, text='Richtig\n<J>')
                       .grid(row=3, column=2)
                       .hide())
 
