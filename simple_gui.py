@@ -3,9 +3,8 @@ import tkinter as tk
 
 
 class FlashCardApp(tk.Tk):
-    class State:
-        COVERED = 'covered'
-        UNCOVERED = 'uncovered'
+    STATE_UNCOVERED = 'uncovered'
+    STATE_COVERED = 'covered'
 
     def __init__(self):
         super().__init__()
@@ -37,17 +36,42 @@ class FlashCardApp(tk.Tk):
 
         self.bind('<KeyPress>', self.on_key_press)
 
-        self.mainloop()
+        self.state = None
+        self.set_covered_state()
+
+    def set_covered_state(self):
+        if self.state not in (None, self.STATE_UNCOVERED):
+            return
+        self.state = self.STATE_COVERED
+        self.uncover.show()
+        self.wrong.hide()
+        self.right.hide()
+
+    def set_uncovered_state(self):
+        if self.state not in (self.STATE_COVERED, ):
+            return
+        self.state = 'uncovered'
+        self.uncover.hide()
+        self.wrong.show()
+        self.right.show()
+
+    def is_covered(self):
+        return self.state == self.STATE_COVERED
+
+    def is_uncovered(self):
+        return self.state == self.STATE_UNCOVERED
 
     def on_key_press(self, event):
         if event.char == 'q':
             self.quit()
-        if event.char == ' ':
-            print('aufdecken')
-        if event.char == 'f':
-            print('wrong')
-        if event.char == 'j':
-            print('right')
+        if self.is_covered():
+            if event.char == ' ':
+                self.set_uncovered_state()
+        if self.is_uncovered():
+            if event.char == 'f':
+                self.set_covered_state()
+            if event.char == 'j':
+                self.set_covered_state()
 
 
 class HideAbleButton(tk.Button):
@@ -73,4 +97,5 @@ class HideAbleButton(tk.Button):
 
 
 if __name__ == '__main__':
-    main()
+    app = FlashCardApp()
+    app.mainloop()
