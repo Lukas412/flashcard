@@ -22,13 +22,14 @@ class FlashCardApp(tk.Tk):
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, minsize=32)
         self.grid_rowconfigure(3, pad=8)
+        self.grid_rowconfigure(4, minsize=32)
         self.grid_columnconfigure(4, pad=32)
         self.grid_columnconfigure(0, minsize=48)
-        self.grid_columnconfigure(1, weight=1, pad=8)
-        self.grid_columnconfigure(2, weight=1, pad=8)
+        self.grid_columnconfigure(1, weight=1, pad=8, minsize=150)
+        self.grid_columnconfigure(2, weight=1, pad=8, minsize=150)
         self.grid_columnconfigure(3, minsize=48)
 
-        self.text = tk.Label(self, text='Hier kommt die Frage hin.')
+        self.text = tk.Label(self, text='Hier kommt die Frage hin.', wraplength=300, justify=tk.CENTER)
         self.text.grid(row=1, column=1, columnspan=2)
 
         self.uncover = HideAbleButton(self, text='Karte aufdecken\n<Space>')
