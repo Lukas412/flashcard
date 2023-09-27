@@ -91,7 +91,7 @@ class FlashCardStore:
     def load_from_simple_csv(self, path):
         with open(path, mode='r') as file:
             csv_content = csv.DictReader(file)
-        self.pile(0).extend(FlashCard(pile=0, question=card['front'], answer=card['back']) for card in csv_content)
+            self.pile(0).extend(FlashCard(pile=0, question=card['front'], answer=card['back']) for card in csv_content)
 
     def pile(self, number):
         if number not in self.piles:
