@@ -43,8 +43,8 @@ class FlashCardApp(tk.Tk):
         self.grid_rowconfigure(25, minsize=32)
 
         self.grid_columnconfigure(0, minsize=32)
-        self.grid_columnconfigure(1, weight=1, pad=8, minsize=150)
-        self.grid_columnconfigure(2, weight=1, pad=8, minsize=150)
+        self.grid_columnconfigure(1, pad=8)
+        self.grid_columnconfigure(2, weight=1, pad=8)
         self.grid_columnconfigure(3, minsize=32)
         self.grid_columnconfigure(4, pad=32)
 
