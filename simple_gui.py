@@ -123,10 +123,19 @@ class FlashCardApp(tk.Tk):
         self.store.save()
 
 
+@dataclass
+class FlashCard:
+    pile: int
+    last_shown: int
+    question: str
+    answer: str
+
+
 class FlashCardStore:
 
     def __init__(self, path):
-        self.version = '1.0'
+        self.version = '1.1'
+        self.tick = 0
         self.path = path
         self.max_piles = 5
         self.piles = [[] for _ in range(self.max_piles)]
@@ -140,6 +149,8 @@ class FlashCardStore:
             with open(self.pickle_path, mode='rb') as file:
                 prev_store = pickle.load(file)
             if prev_store.version != self.version:
+                self.apply_version_migrations(prev_store)
+            if prev_store.version != self.version:
                 raise TypeError(f'Could not load old data, because the versions do not match:'
                                 f' {prev_store.version} != {self.version}.')
             self.max_piles = prev_store.max_piles
@@ -147,7 +158,8 @@ class FlashCardStore:
             return
         with open(self.path, mode='r') as file:
             csv_content = csv.DictReader(file)
-            self.piles[0].extend(FlashCard(pile=0, question=card['front'], answer=card['back']) for card in csv_content)
+            self.piles[0].extend(
+                FlashCard(pile=0, last_shown=-50, question=card['front'], answer=card['back']) for card in csv_content)
 
     def save(self):
         with open(self.pickle_path, mode='wb') as file:
@@ -171,15 +183,19 @@ class FlashCardStore:
         card.pile = max(0, card.pile - 1)
         self.add_card(card)
 
-    def add_card(self, card):
+    def add_card(self, card: FlashCard):
+        card.last_shown = self.tick
+        self.tick += 1
         self.piles[card.pile].append(card)
 
-
-@dataclass
-class FlashCard:
-    pile: int
-    question: str
-    answer: str
+    @staticmethod
+    def apply_version_migrations(store):
+        if store.version == '1.0':
+            store.tick = 0
+            for pile in store.piles:
+                for card in pile:
+                    card.last_shown = -50
+            store.version = '1.1'
 
 
 class HideAbleButton(tk.Label):
