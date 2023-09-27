@@ -12,6 +12,8 @@ class FlashCardApp(tk.Tk):
         super().__init__()
 
         self.flash_card_store = FlashCardStore()
+        self.flash_card_store.load_from_simple_csv('FU0_2023-09-26_Klausurvorbereitung_Flashcards.csv')
+        self.card = None
 
         self.title('FlashCards')
 
@@ -47,6 +49,7 @@ class FlashCardApp(tk.Tk):
         if self.state not in (None, self.STATE_UNCOVERED):
             return
         self.state = self.STATE_COVERED
+        self.card = self.flash_card_store.next_card()
         self.uncover.show()
         self.wrong.hide()
         self.right.hide()
