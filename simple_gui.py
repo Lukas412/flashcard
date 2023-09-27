@@ -30,21 +30,21 @@ class FlashCardApp(tk.Tk):
         self.grid_columnconfigure(2, weight=1, pad=8, minsize=150)
         self.grid_columnconfigure(3, minsize=48)
 
-        self.piles = tk.Label(self, text='', justify=tk.RIGHT)
-        self.piles.grid(row=0, column=2, columnspan=2, sticky='ne')
+        self.piles_label = tk.Label(self, text='', justify=tk.RIGHT)
+        self.piles_label.grid(row=0, column=2, columnspan=2, sticky='ne')
 
-        self.text = tk.Label(self, text='Hier kommt die Frage hin.', wraplength=300, justify=tk.CENTER)
-        self.text.grid(row=1, column=1, columnspan=2)
+        self.text_label = tk.Label(self, text='Hier kommt die Frage hin.', wraplength=300, justify=tk.CENTER)
+        self.text_label.grid(row=1, column=1, columnspan=2)
 
-        self.uncover = HideAbleButton(self, text='Karte aufdecken\n<Space>')
-        self.uncover.grid(row=3, column=1, columnspan=2)
+        self.uncover_button = HideAbleButton(self, text='Karte aufdecken\n<Space>')
+        self.uncover_button.grid(row=3, column=1, columnspan=2)
 
-        self.wrong = (HideAbleButton(self, text='Falsch\n<F>')
-                      .grid(row=3, column=1)
-                      .hide())
-        self.right = (HideAbleButton(self, text='Richtig\n<J>')
-                      .grid(row=3, column=2)
-                      .hide())
+        self.wrong_button = (HideAbleButton(self, text='Falsch\n<F>')
+                             .grid(row=3, column=1)
+                             .hide())
+        self.right_button = (HideAbleButton(self, text='Richtig\n<J>')
+                             .grid(row=3, column=2)
+                             .hide())
 
         self.bind('<KeyPress>', self.on_key_press)
 
@@ -55,21 +55,21 @@ class FlashCardApp(tk.Tk):
         if self.state not in (None, self.STATE_UNCOVERED):
             return
         self.state = self.STATE_COVERED
-        self.piles.configure(text=self.store.format_pile_sizes())
+        self.piles_label.configure(text=self.store.format_pile_sizes())
         self.card = self.store.next_card()
-        self.text.configure(text=self.card.question)
-        self.uncover.show()
-        self.wrong.hide()
-        self.right.hide()
+        self.text_label.configure(text=self.card.question)
+        self.uncover_button.show()
+        self.wrong_button.hide()
+        self.right_button.hide()
 
     def set_uncovered_state(self):
         if self.state not in (self.STATE_COVERED,):
             return
         self.state = 'uncovered'
-        self.text.configure(text=self.card.answer)
-        self.uncover.hide()
-        self.wrong.show()
-        self.right.show()
+        self.text_label.configure(text=self.card.answer)
+        self.uncover_button.hide()
+        self.wrong_button.show()
+        self.right_button.show()
 
     def is_covered(self):
         return self.state == self.STATE_COVERED
