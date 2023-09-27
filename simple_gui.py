@@ -12,13 +12,13 @@ class FlashCardApp(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.flash_card_store = FlashCardStore()
-        self.flash_card_store.load_from_simple_csv('FU0_2023-09-26_Klausurvorbereitung_Flashcards.csv')
+        self.store = FlashCardStore()
+        self.store.load_from_simple_csv('FU0_2023-09-26_Klausurvorbereitung_Flashcards.csv')
         self.card = None
 
         self.title('FlashCards')
 
-        self.grid_rowconfigure(0, minsize=32)
+        self.grid_rowconfigure(0, minsize=80)
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, minsize=32)
         self.grid_rowconfigure(3, pad=8)
@@ -29,6 +29,9 @@ class FlashCardApp(tk.Tk):
         self.grid_columnconfigure(1, weight=1, pad=8, minsize=150)
         self.grid_columnconfigure(2, weight=1, pad=8, minsize=150)
         self.grid_columnconfigure(3, minsize=48)
+
+        self.piles = tk.Label(self, text='', justify=tk.RIGHT)
+        self.piles.grid(row=0, column=2, columnspan=2, sticky='ne')
 
         self.text = tk.Label(self, text='Hier kommt die Frage hin.', wraplength=300, justify=tk.CENTER)
         self.text.grid(row=1, column=1, columnspan=2)
@@ -52,7 +55,8 @@ class FlashCardApp(tk.Tk):
         if self.state not in (None, self.STATE_UNCOVERED):
             return
         self.state = self.STATE_COVERED
-        self.card = self.flash_card_store.next_card()
+        self.piles.configure(text=self.store.format_pile_sizes())
+        self.card = self.store.next_card()
         self.text.configure(text=self.card.question)
         self.uncover.show()
         self.wrong.hide()
@@ -81,10 +85,10 @@ class FlashCardApp(tk.Tk):
                 self.set_uncovered_state()
         if self.is_uncovered():
             if event.char == 'f':
-                self.flash_card_store.add_wrong_card(self.card)
+                self.store.add_wrong_card(self.card)
                 self.set_covered_state()
             if event.char == 'j':
-                self.flash_card_store.add_right_card(self.card)
+                self.store.add_right_card(self.card)
                 self.set_covered_state()
 
 
@@ -98,6 +102,9 @@ class FlashCardStore:
         with open(path, mode='r') as file:
             csv_content = csv.DictReader(file)
             self.piles[0].extend(FlashCard(pile=0, question=card['front'], answer=card['back']) for card in csv_content)
+
+    def format_pile_sizes(self):
+        return str.join('/', map(str, map(len, self.piles)))
 
     def next_card(self):
         pile_weights = tuple((self.max_piles - index) * len(pile) for (index, pile) in enumerate(self.piles))
