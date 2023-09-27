@@ -5,6 +5,10 @@ import tkinter as tk
 from dataclasses import dataclass
 
 
+class Theme:
+    pass
+
+
 class FlashCardApp(tk.Tk):
     STATE_UNCOVERED = 'uncovered'
     STATE_COVERED = 'covered'
