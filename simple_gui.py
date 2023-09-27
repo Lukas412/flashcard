@@ -1,9 +1,12 @@
 import csv
 import functools
+import os.path
+import pathlib
+import pickle
 import random
 import tkinter as tk
-from tkinter import font
 from dataclasses import dataclass
+from tkinter import font
 
 
 class Theme:
@@ -24,11 +27,11 @@ class FlashCardApp(tk.Tk):
     STATE_UNCOVERED = 'uncovered'
     STATE_COVERED = 'covered'
 
-    def __init__(self):
+    def __init__(self, path):
         super().__init__()
 
-        self.store = FlashCardStore()
-        self.store.load_from_simple_csv('FU0_2023-09-26_Klausurvorbereitung_Flashcards.csv')
+        self.store = FlashCardStore(path)
+        self.store.load()
         self.card = None
 
         self.title('FlashCards')
@@ -116,17 +119,39 @@ class FlashCardApp(tk.Tk):
                 self.store.add_right_card(self.card)
                 self.set_covered_state()
 
+    def save(self):
+        self.store.save()
+
 
 class FlashCardStore:
 
-    def __init__(self):
+    def __init__(self, path):
+        self.version = '1.0'
+        self.path = path
         self.max_piles = 5
         self.piles = [[] for _ in range(self.max_piles)]
 
-    def load_from_simple_csv(self, path):
-        with open(path, mode='r') as file:
+    @property
+    def pickle_path(self):
+        return pathlib.Path(self.path).with_suffix('.pkl')
+
+    def load(self):
+        if os.path.exists(self.pickle_path):
+            with open(self.pickle_path, mode='rb') as file:
+                prev_store = pickle.load(file)
+            if prev_store.version != self.version:
+                raise TypeError(f'Could not load old data, because the versions do not match:'
+                                f' {prev_store.version} != {self.version}.')
+            self.max_piles = prev_store.max_piles
+            self.piles = prev_store.piles
+            return
+        with open(self.path, mode='r') as file:
             csv_content = csv.DictReader(file)
             self.piles[0].extend(FlashCard(pile=0, question=card['front'], answer=card['back']) for card in csv_content)
+
+    def save(self):
+        with open(self.pickle_path, mode='wb') as file:
+            pickle.dump(self, file)
 
     def format_pile_sizes(self):
         return str.join('/', map(str, map(len, self.piles)))
@@ -180,5 +205,8 @@ class HideAbleButton(tk.Button):
 
 
 if __name__ == '__main__':
-    app = FlashCardApp()
-    app.mainloop()
+    app = FlashCardApp('FU0_2023-09-26_Klausurvorbereitung_Flashcards.csv')
+    try:
+        app.mainloop()
+    finally:
+        app.save()
