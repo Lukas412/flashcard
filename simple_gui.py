@@ -2,11 +2,22 @@ import csv
 import functools
 import random
 import tkinter as tk
+from tkinter import font
 from dataclasses import dataclass
 
 
 class Theme:
-    pass
+    @classmethod
+    def title_font(cls):
+        return font.Font(size=20, underline=True)
+
+    @classmethod
+    def text_font(cls):
+        return font.Font(size=16)
+
+    @classmethod
+    def action_font(cls):
+        return font.Font(size=10)
 
 
 class FlashCardApp(tk.Tk):
@@ -23,31 +34,35 @@ class FlashCardApp(tk.Tk):
         self.title('FlashCards')
 
         self.grid_rowconfigure(0, minsize=80)
-        self.grid_rowconfigure(1, weight=1)
-        self.grid_rowconfigure(2, minsize=32)
-        self.grid_rowconfigure(3, pad=8)
-        self.grid_rowconfigure(4, minsize=32)
+        self.grid_rowconfigure(6, minsize=20)
+        self.grid_rowconfigure(10, weight=1)
+        self.grid_rowconfigure(15, minsize=48)
+        self.grid_rowconfigure(20, pad=8)
+        self.grid_rowconfigure(25, minsize=32)
 
-        self.grid_columnconfigure(4, pad=32)
-        self.grid_columnconfigure(0, minsize=48)
+        self.grid_columnconfigure(0, minsize=32)
         self.grid_columnconfigure(1, weight=1, pad=8, minsize=150)
         self.grid_columnconfigure(2, weight=1, pad=8, minsize=150)
-        self.grid_columnconfigure(3, minsize=48)
+        self.grid_columnconfigure(3, minsize=32)
+        self.grid_columnconfigure(4, pad=32)
 
         self.piles_label = tk.Label(self, text='', justify=tk.RIGHT)
         self.piles_label.grid(row=0, column=2, columnspan=2, sticky='ne')
 
-        self.text_label = tk.Label(self, text='Hier kommt die Frage hin.', wraplength=300, justify=tk.CENTER)
-        self.text_label.grid(row=1, column=1, columnspan=2)
+        self.title_label = tk.Label(self, text='', justify=tk.LEFT, font=Theme.title_font())
+        self.title_label.grid(row=5, column=1, columnspan=2, sticky='nw')
 
-        self.uncover_button = HideAbleButton(self, text='Karte aufdecken\n<Space>')
-        self.uncover_button.grid(row=3, column=1, columnspan=2)
+        self.text_label = tk.Label(self, text='', justify=tk.LEFT, wraplength=300, font=Theme.text_font())
+        self.text_label.grid(row=10, column=1, columnspan=2, sticky='nw')
 
-        self.wrong_button = (HideAbleButton(self, text='Falsch\n<F>')
-                             .grid(row=3, column=1)
+        self.uncover_button = (HideAbleButton(self, text='Aufdecken <Space>', font=Theme.action_font())
+                               .grid(row=20, column=1, columnspan=2, sticky='nw'))
+
+        self.wrong_button = (HideAbleButton(self, text='Falsch <F>', font=Theme.action_font())
+                             .grid(row=20, column=1, sticky='nw')
                              .hide())
-        self.right_button = (HideAbleButton(self, text='Richtig\n<J>')
-                             .grid(row=3, column=2)
+        self.right_button = (HideAbleButton(self, text='Richtig <J>', font=Theme.action_font())
+                             .grid(row=20, column=2, sticky='nw')
                              .hide())
 
         self.bind('<KeyPress>', self.on_key_press)
@@ -61,6 +76,7 @@ class FlashCardApp(tk.Tk):
         self.state = self.STATE_COVERED
         self.piles_label.configure(text=self.store.format_pile_sizes())
         self.card = self.store.next_card()
+        self.title_label.configure(text='Frage:')
         self.text_label.configure(text=self.card.question)
         self.uncover_button.show()
         self.wrong_button.hide()
@@ -70,6 +86,7 @@ class FlashCardApp(tk.Tk):
         if self.state not in (self.STATE_COVERED,):
             return
         self.state = 'uncovered'
+        self.title_label.configure(text='Antwort:')
         self.text_label.configure(text=self.card.answer)
         self.uncover_button.hide()
         self.wrong_button.show()
