@@ -1,5 +1,4 @@
 import csv
-import functools
 import os.path
 import pathlib
 import pickle
@@ -61,7 +60,7 @@ class FlashCardApp(tk.Tk):
         self.text_label = tk.Label(self, text='', justify=tk.LEFT, wraplength=300, font=Theme.text_font())
         self.text_label.grid(row=10, column=1, columnspan=2, sticky='nw')
 
-        self.uncover_button = (HideAbleButton(self, text='Aufdecken <Space>', font=Theme.action_font(), border=0)
+        self.uncover_button = (HideAbleButton(self, text='Aufdecken <Lehrtaste>', font=Theme.action_font(), border=0)
                                .grid(row=20, column=1, columnspan=2, sticky='nw'))
 
         self.wrong_button = (HideAbleButton(self, text='Falsch <F>', font=Theme.action_font(), border=0)
