@@ -1,7 +1,9 @@
 import csv
 import functools
+import random
 import tkinter as tk
 from dataclasses import dataclass
+from itertools import repeat
 
 
 class FlashCardApp(tk.Tk):
@@ -78,33 +80,43 @@ class FlashCardApp(tk.Tk):
                 self.set_uncovered_state()
         if self.is_uncovered():
             if event.char == 'f':
+                self.flash_card_store.add_wrong_card(self.card)
                 self.set_covered_state()
             if event.char == 'j':
+                self.flash_card_store.add_right_card(self.card)
                 self.set_covered_state()
 
 
 class FlashCardStore:
 
     def __init__(self):
-        self.piles = {}
+        self.max_piles = 5
+        self.piles = [*repeat([], times=self.max_piles)]
 
     def load_from_simple_csv(self, path):
         with open(path, mode='r') as file:
             csv_content = csv.DictReader(file)
-            self.pile(0).extend(FlashCard(pile=0, question=card['front'], answer=card['back']) for card in csv_content)
-
-    def pile(self, number):
-        if number not in self.piles:
-            self.piles[number] = []
-        return self.piles[number]
+            self.piles[0].extend(FlashCard(pile=0, question=card['front'], answer=card['back']) for card in csv_content)
 
     def next_card(self):
-        # Somehow find the card and the pile and return the card
-        try:
-            self.x += 1
-        except:
-            self.x = 1
-        return FlashCard(pile=0, question=f'Question {self.x}?', answer=f'Answer {self.x}!')
+        piles_count = len(self.piles)
+        pile_weights = tuple((piles_count - index) * 2 * len(self.piles[index]) for index in range(piles_count))
+        print(pile_weights)
+        random_pile = random.choices(self.piles, weights=pile_weights, k=1)[0]
+        random_card = random.choice(random_pile)
+        random_pile.remove(random_card)
+        return random_card
+
+    def add_right_card(self, card):
+        card.pile = min(self.max_piles - 1, card.pile + 1)
+        self._add_card(card)
+
+    def add_wrong_card(self, card):
+        card.pile = max(0, card - 1)
+        self._add_card(card)
+
+    def _add_card(self, card):
+        self.piles[card.pile].append(card)
 
 
 @dataclass
