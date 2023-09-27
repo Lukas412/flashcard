@@ -61,13 +61,13 @@ class FlashCardApp(tk.Tk):
         self.text_label = tk.Label(self, text='', justify=tk.LEFT, wraplength=300, font=Theme.text_font())
         self.text_label.grid(row=10, column=1, columnspan=2, sticky='nw')
 
-        self.uncover_button = (HideAbleButton(self, text='Aufdecken <Space>', font=Theme.action_font())
+        self.uncover_button = (HideAbleButton(self, text='Aufdecken <Space>', font=Theme.action_font(), border=0)
                                .grid(row=20, column=1, columnspan=2, sticky='nw'))
 
-        self.wrong_button = (HideAbleButton(self, text='Falsch <F>', font=Theme.action_font())
+        self.wrong_button = (HideAbleButton(self, text='Falsch <F>', font=Theme.action_font(), border=0)
                              .grid(row=20, column=1, sticky='nw')
                              .hide())
-        self.right_button = (HideAbleButton(self, text='Richtig <J>', font=Theme.action_font())
+        self.right_button = (HideAbleButton(self, text='Richtig <J>', font=Theme.action_font(), border=0)
                              .grid(row=20, column=2, sticky='nw')
                              .hide())
 
@@ -120,6 +120,7 @@ class FlashCardApp(tk.Tk):
                 self.set_covered_state()
 
     def save(self):
+        self.store.add_card(self.card)
         self.store.save()
 
 
@@ -165,13 +166,13 @@ class FlashCardStore:
 
     def add_right_card(self, card):
         card.pile = min(self.max_piles - 1, card.pile + 1)
-        self._add_card(card)
+        self.add_card(card)
 
     def add_wrong_card(self, card):
         card.pile = max(0, card.pile - 1)
-        self._add_card(card)
+        self.add_card(card)
 
-    def _add_card(self, card):
+    def add_card(self, card):
         self.piles[card.pile].append(card)
 
 
@@ -182,13 +183,12 @@ class FlashCard:
     answer: str
 
 
-class HideAbleButton(tk.Button):
-    @functools.wraps(tk.Button.__init__)
+class HideAbleButton(tk.Label):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._grid_options = [], {}
 
-    @functools.wraps(tk.Button.grid)
     def grid(self, *args, **kwargs):
         super().grid(*args, **kwargs)
         self._grid_options = args, kwargs
