@@ -23,6 +23,7 @@ class FlashCardApp(tk.Tk):
         self.grid_rowconfigure(2, minsize=32)
         self.grid_rowconfigure(3, pad=8)
         self.grid_rowconfigure(4, minsize=32)
+
         self.grid_columnconfigure(4, pad=32)
         self.grid_columnconfigure(0, minsize=48)
         self.grid_columnconfigure(1, weight=1, pad=8, minsize=150)
@@ -100,7 +101,6 @@ class FlashCardStore:
 
     def next_card(self):
         pile_weights = tuple((self.max_piles - index) * len(pile) for (index, pile) in enumerate(self.piles))
-        print(pile_weights)
         random_pile = random.choices(self.piles, weights=pile_weights, k=1)[0]
         random_card = random.choice(random_pile)
         random_pile.remove(random_card)
