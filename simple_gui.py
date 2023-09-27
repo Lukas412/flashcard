@@ -3,7 +3,6 @@ import functools
 import random
 import tkinter as tk
 from dataclasses import dataclass
-from itertools import repeat
 
 
 class FlashCardApp(tk.Tk):
@@ -91,7 +90,7 @@ class FlashCardStore:
 
     def __init__(self):
         self.max_piles = 5
-        self.piles = [*repeat([], times=self.max_piles)]
+        self.piles = [[] for _ in range(self.max_piles)]
 
     def load_from_simple_csv(self, path):
         with open(path, mode='r') as file:
@@ -99,7 +98,7 @@ class FlashCardStore:
             self.piles[0].extend(FlashCard(pile=0, question=card['front'], answer=card['back']) for card in csv_content)
 
     def next_card(self):
-        pile_weights = tuple((self.max_piles - index) * 2 * len(pile) for (index, pile) in enumerate(self.piles))
+        pile_weights = tuple((self.max_piles - index) * len(pile) for (index, pile) in enumerate(self.piles))
         print(pile_weights)
         random_pile = random.choices(self.piles, weights=pile_weights, k=1)[0]
         random_card = random.choice(random_pile)
