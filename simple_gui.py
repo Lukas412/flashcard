@@ -34,7 +34,7 @@ class FlashCardApp(tk.Tk):
         self.title('FlashCards')
 
         self.grid_rowconfigure(0, minsize=80)
-        self.grid_rowconfigure(6, minsize=20)
+        self.grid_rowconfigure(8, minsize=20)
         self.grid_rowconfigure(10, weight=1)
         self.grid_rowconfigure(15, minsize=48)
         self.grid_rowconfigure(20, pad=8)
@@ -51,6 +51,9 @@ class FlashCardApp(tk.Tk):
 
         self.title_label = tk.Label(self, text='', justify=tk.LEFT, font=Theme.title_font())
         self.title_label.grid(row=5, column=1, columnspan=2, sticky='nw')
+
+        self.pile_label = tk.Label(self, text='', justify=tk.LEFT)
+        self.pile_label.grid(row=4, column=1, sticky='nw')
 
         self.text_label = tk.Label(self, text='', justify=tk.LEFT, wraplength=300, font=Theme.text_font())
         self.text_label.grid(row=10, column=1, columnspan=2, sticky='nw')
@@ -77,6 +80,7 @@ class FlashCardApp(tk.Tk):
         self.piles_label.configure(text=self.store.format_pile_sizes())
         self.card = self.store.next_card()
         self.title_label.configure(text='Frage:')
+        self.pile_label.configure(text=f'Aus Stapel {self.card.pile + 1}')
         self.text_label.configure(text=self.card.question)
         self.uncover_button.show()
         self.wrong_button.hide()
