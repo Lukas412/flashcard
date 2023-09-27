@@ -50,6 +50,7 @@ class FlashCardApp(tk.Tk):
             return
         self.state = self.STATE_COVERED
         self.card = self.flash_card_store.next_card()
+        self.text.configure(text=self.card.question)
         self.uncover.show()
         self.wrong.hide()
         self.right.hide()
@@ -58,6 +59,7 @@ class FlashCardApp(tk.Tk):
         if self.state not in (self.STATE_COVERED,):
             return
         self.state = 'uncovered'
+        self.text.configure(text=self.card.answer)
         self.uncover.hide()
         self.wrong.show()
         self.right.show()
