@@ -111,7 +111,7 @@ class FlashCardStore:
         self._add_card(card)
 
     def add_wrong_card(self, card):
-        card.pile = max(0, card - 1)
+        card.pile = max(0, card.pile - 1)
         self._add_card(card)
 
     def _add_card(self, card):
