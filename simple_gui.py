@@ -5,9 +5,9 @@ import pickle
 import random
 import tkinter as tk
 from dataclasses import dataclass
+from tkinter import filedialog as fd
 from tkinter import font
 from typing import Optional
-from tkinter import filedialog as fd
 
 
 class FlashCardApp(tk.Tk):
@@ -155,6 +155,7 @@ class FlashCardStore:
                 prev_store = pickle.load(file)
             if prev_store.version != self.version:
                 self.apply_version_migrations(prev_store)
+            self.apply_fixes(prev_store)
             if prev_store.version != self.version:
                 raise TypeError(f'Could not load old data, because the versions do not match:'
                                 f' {prev_store.version} != {self.version}.')
@@ -174,15 +175,20 @@ class FlashCardStore:
         return str.join('/', map(str, map(len, self.piles)))
 
     def next_card(self):
+        best_random_card = None
         random_card: Optional[FlashCard] = None
         random_pile = []
         spacing = 10
-        while random_card is None or (self.tick - random_card.last_shown) < spacing:
-            pile_weights = tuple((self.max_piles - index) ** 2 * len(pile) for (index, pile) in enumerate(self.piles))
+        tries = 0
+        while (random_card is None or (self.tick - random_card.last_shown) < spacing) and tries < 20:
+            pile_weights = tuple((self.max_piles - tries) ** 2 * len(pile) for (tries, pile) in enumerate(self.piles))
             random_pile = random.choices(self.piles, weights=pile_weights, k=1)[0]
             random_card = random.choice(random_pile)
+            if best_random_card is None or best_random_card.last_shown < random_card.last_shown:
+                best_random_card = random_card
+            tries += 1
         random_pile.remove(random_card)
-        return random_card
+        return best_random_card
 
     def add_right_card(self, card):
         card.pile = min(self.max_piles - 1, card.pile + 1)
@@ -205,6 +211,10 @@ class FlashCardStore:
                 for card in pile:
                     card.last_shown = -50
             store.version = '1.1'
+
+    @staticmethod
+    def apply_fixes(prev_store):
+        prev_store.piles = [list(filter(bool, pile)) for pile in prev_store.piles]
 
 
 class HideAbleButton(tk.Label):
