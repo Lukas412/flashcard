@@ -14,8 +14,13 @@ class FlashCardApp(tk.Tk):
     STATE_UNCOVERED = 'uncovered'
     STATE_COVERED = 'covered'
 
-    def __init__(self, path):
+    def __init__(self):
         super().__init__()
+
+        filetypes = (
+            ('CSV-Dateien', '.csv'),
+        )
+        path = fd.askopenfilename(title='Karteikarten Datei öffnen', defaultextension='.csv', filetypes=filetypes)
 
         self.store = FlashCardStore(path)
         self.store.load()
@@ -223,11 +228,7 @@ class HideAbleButton(tk.Label):
 
 
 if __name__ == '__main__':
-    filetypes = (
-        ('CSV-Dateien', '.csv'),
-    )
-    fd.askopenfilename(title='Karteikarten Datei öffnen', defaultextension='.csv', filetypes=filetypes)
-    app = FlashCardApp('FU0_2023-09-26_Klausurvorbereitung_Flashcards.csv')
+    app = FlashCardApp()
     try:
         app.mainloop()
     finally:
