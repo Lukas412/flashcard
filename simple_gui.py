@@ -6,6 +6,7 @@ import random
 import tkinter as tk
 from dataclasses import dataclass
 from tkinter import font
+from typing import Optional
 
 
 class Theme:
@@ -169,10 +170,13 @@ class FlashCardStore:
         return str.join('/', map(str, map(len, self.piles)))
 
     def next_card(self):
-        pile_weights = tuple((self.max_piles - index) ** 2 * len(pile) for (index, pile) in enumerate(self.piles))
-        random_pile = random.choices(self.piles, weights=pile_weights, k=1)[0]
-        random_card = random.choice(random_pile)
-        random_pile.remove(random_card)
+        random_card: Optional[FlashCard] = None
+        spacing = 10
+        while random_card is None or (self.tick - random_card.last_shown) < spacing:
+            pile_weights = tuple((self.max_piles - index) ** 2 * len(pile) for (index, pile) in enumerate(self.piles))
+            random_pile = random.choices(self.piles, weights=pile_weights, k=1)[0]
+            random_card = random.choice(random_pile)
+            random_pile.remove(random_card)
         return random_card
 
     def add_right_card(self, card):
