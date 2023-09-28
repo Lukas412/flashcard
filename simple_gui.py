@@ -7,20 +7,7 @@ import tkinter as tk
 from dataclasses import dataclass
 from tkinter import font
 from typing import Optional
-
-
-class Theme:
-    @classmethod
-    def title_font(cls):
-        return font.Font(size=20, underline=True)
-
-    @classmethod
-    def text_font(cls):
-        return font.Font(size=16)
-
-    @classmethod
-    def action_font(cls):
-        return font.Font(size=10)
+from tkinter import filedialog as fd
 
 
 class FlashCardApp(tk.Tk):
@@ -52,22 +39,22 @@ class FlashCardApp(tk.Tk):
         self.piles_label = tk.Label(self, text='', justify=tk.RIGHT)
         self.piles_label.grid(row=0, column=2, columnspan=2, sticky='ne')
 
-        self.title_label = tk.Label(self, text='', justify=tk.LEFT, font=Theme.title_font())
+        self.title_label = tk.Label(self, text='', justify=tk.LEFT, font=self.title_font())
         self.title_label.grid(row=5, column=1, columnspan=2, sticky='nw')
 
         self.pile_label = tk.Label(self, text='', justify=tk.LEFT)
         self.pile_label.grid(row=4, column=1, sticky='nw')
 
-        self.text_label = tk.Label(self, text='', justify=tk.LEFT, wraplength=600, font=Theme.text_font())
+        self.text_label = tk.Label(self, text='', justify=tk.LEFT, wraplength=600, font=self.text_font())
         self.text_label.grid(row=10, column=1, columnspan=2, sticky='nw')
 
-        self.uncover_button = (HideAbleButton(self, text='Aufdecken <Leertaste>', font=Theme.action_font(), border=0)
+        self.uncover_button = (HideAbleButton(self, text='Aufdecken <Leertaste>', font=self.action_font(), border=0)
                                .grid(row=20, column=1, columnspan=2, sticky='nw'))
 
-        self.wrong_button = (HideAbleButton(self, text='Falsch <F>', font=Theme.action_font(), border=0)
+        self.wrong_button = (HideAbleButton(self, text='Falsch <F>', font=self.action_font(), border=0)
                              .grid(row=20, column=1, sticky='nw')
                              .hide())
-        self.right_button = (HideAbleButton(self, text='Richtig <J>', font=Theme.action_font(), border=0)
+        self.right_button = (HideAbleButton(self, text='Richtig <J>', font=self.action_font(), border=0)
                              .grid(row=20, column=2, sticky='nw')
                              .hide())
 
@@ -118,6 +105,18 @@ class FlashCardApp(tk.Tk):
             if event.char == 'j':
                 self.store.add_right_card(self.card)
                 self.set_covered_state()
+
+    @classmethod
+    def title_font(cls):
+        return font.Font(size=19, underline=True)
+
+    @classmethod
+    def text_font(cls):
+        return font.Font(size=15)
+
+    @classmethod
+    def action_font(cls):
+        return font.Font(size=9)
 
     def save(self):
         self.store.add_card(self.card)
