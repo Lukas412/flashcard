@@ -223,6 +223,10 @@ class HideAbleButton(tk.Label):
 
 
 if __name__ == '__main__':
+    filetypes = (
+        ('CSV-Dateien', '.csv'),
+    )
+    fd.askopenfilename(title='Karteikarten Datei öffnen', defaultextension='.csv', filetypes=filetypes)
     app = FlashCardApp('FU0_2023-09-26_Klausurvorbereitung_Flashcards.csv')
     try:
         app.mainloop()
